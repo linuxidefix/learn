@@ -1,0 +1,1615 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wekj.adr.weieruserdao.BuyerPortraitCalculateMapper">
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.wekj.adr.po.BuyerPortrait">
+        <result column="id" property="id"/>
+        <result column="buyer_id" property="buyerId"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="user_tags" property="userTags"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="all_column">
+        `id`,
+        `buyer_id`,
+        `shop_id`,
+        `updated_at`,
+        `created_at`,
+        `user_tags`
+    </sql>
+
+    <!--auto generated Code-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="pojo.id">
+        INSERT INTO buyer_portrait_calculate (
+            `id`,
+            `buyer_id`,
+            `shop_id`,
+            `updated_at`,
+            `created_at`,
+            `user_tags`
+        ) VALUES (
+            #{pojo.id},
+            #{pojo.buyerId},
+            #{pojo.shopId},
+            #{pojo.updatedAt},
+            #{pojo.createdAt},
+            '0'
+        )
+        ON DUPLICATE KEY UPDATE
+        updated_at = now()
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="pojo.id">
+        INSERT INTO buyer_portrait_calculate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id!=null"> `id`,</if>
+            <if test="pojo.buyerId!=null"> `buyer_id`,</if>
+            <if test="pojo.shopId != null">`shop_id`,</if>
+            <if test="pojo.createdAt!=null"> `created_at`,</if>
+            <if test="pojo.updatedAt!=null"> `updated_at`,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.id!=null">#{pojo.id},</if>
+            <if test="pojo.buyerId!=null">#{pojo.buyerId},</if>
+            <if test="pojo.shopId!=null">#{pojo.shopId},</if>
+            <if test="pojo.createdAt!=null">#{pojo.createdAt},</if>
+            <if test="pojo.updatedAt!=null"> #{pojo.updatedAt}</if>
+        </trim>
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO buyer_portrait_calculate (
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.id},
+            #{pojo.buyerId},
+            #{pojo.shopId},
+            #{pojo.updatedAt},
+            #{pojo.createdAt},
+            '0'
+            )
+        </foreach>
+    </insert>
+
+    <!--auto generated Code-->
+    <update id="update">
+        UPDATE buyer_portrait_calculate
+        <set>
+            <if test="pojo.updatedAt != null"> `updated_at` = #{pojo.updatedAt} </if>
+        </set>
+        WHERE buyer_id = #{pojo.buyerId}
+    </update>
+
+    <update id="updateUserTagsById">
+        update  buyer_portrait_calculate set user_tags = (user_tags | #{addTag}) &amp; (~#{removeTag}) where id = #{id}
+    </update>
+
+    <select id="listBuyerIds" resultType="String">
+        SELECT buyer_id FROM buyer_portrait_calculate order by updated_at desc limit #{start}, #{rows}
+    </select>
+
+    <select id="count" parameterType="BuyerPortrait" resultType="java.lang.Integer">
+        SELECT count(1) FROM buyer_portrait_calculate
+        <include refid="whereSQL" />
+    </select>
+
+    <select id="selectByBuyerId" resultMap="AllColumnMap">
+        SELECT <include refid="all_column"/>
+         FROM buyer_portrait_calculate WHERE buyer_id = #{buyerId} and shop_id = #{shopId}
+    </select>
+
+    <select id="list" parameterType="BuyerPortrait" resultMap="AllColumnMap">
+        SELECT
+        <include refid="all_column" />
+        FROM buyer_portrait_calculate
+        <include refid="whereSQL" />
+        <if test="pager != null">
+            limit #{pager.startIndex},#{pager.pageSize}
+        </if>
+    </select>
+
+    <sql id="whereSQL">
+        <where>
+            <if test="buyerId != null and buyerId != ''">
+                AND buyer_id LIKE concat(concat('%',#{buyerId}),'%')
+            </if>
+            <if test="shopId != null and shopId != ''">
+                AND shop_id = #{shopId}
+            </if>
+        </where>
+    </sql>
+
+    <resultMap id="newAllColumnMap" type="com.wekj.adr.po.BuyerPortrait">
+        <result column="id" property="id"/>
+        <result column="buyer_id" property="buyerId"/>
+        <result column="shop_id" property="shopId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="user_tags" property="userTags"/>
+        <result column="features" property="features"/>
+        <result column="label_tag" property="labelTag"/>
+        <result column="status" property="status"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="area" property="area"/>
+        <result column="sex" property="sex"/>
+        <result column="order_payed" property="orderPayed"/>
+        <result column="order_count" property="orderCount"/>
+        <result column="average_product" property="averageProduct"/>
+        <result column="product_count" property="productCount"/>
+        <result column="order_payed_30" property="orderPayed30"/>
+        <result column="order_count_30" property="orderCount30"/>
+        <result column="average_product_30" property="averageProduct30"/>
+        <result column="product_count_30" property="productCount30"/>
+        <result column="order_payed_60" property="orderPayed60"/>
+        <result column="order_count_60" property="orderCount60"/>
+        <result column="average_product_60" property="averageProduct60"/>
+        <result column="product_count_60" property="productCount60"/>
+        <result column="order_payed_90" property="orderPayed90"/>
+        <result column="order_count_90" property="orderCount90"/>
+        <result column="average_product_90" property="averageProduct90"/>
+        <result column="product_count_90" property="productCount90"/>
+        <result column="order_payed_180" property="orderPayed180"/>
+        <result column="order_count_180" property="orderCount180"/>
+        <result column="average_product_180" property="averageProduct180"/>
+        <result column="order_consult_tag" property="orderConsultTag"/>
+        <result column="gmt_last_payed" property="gmtLastPayed"/>
+        <result column="gmt_last_consultation" property="gmtLastConsultation"/>
+        <result column="phone" property="phone"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="new_all_column">
+        `id`,
+        `buyer_id`,
+        `shop_id`,
+        `updated_at`,
+        `created_at`,
+        `user_tags`,
+        `features`,
+        `label_tag`,
+        `status`,
+        `province`,
+        `city`,
+        `area`,
+        `sex`,
+        `order_payed`,
+        `order_count`,
+        `average_product`,
+        `product_count`,
+        `order_payed_30`,
+        `order_count_30`,
+        `average_product_30`,
+        `product_count_30`,
+        `order_payed_60`,
+        `order_count_60`,
+        `average_product_60`,
+        `product_count_60`,
+        `order_payed_90`,
+        `order_count_90`,
+        `average_product_90`,
+        `product_count_90`,
+        `order_payed_180`,
+        `order_count_180`,
+        `average_product_180`,
+        `order_consult_tag`,
+        `gmt_last_payed`,
+        `phone`,
+        `gmt_last_consultation`
+    </sql>
+
+    <sql id="newWhereSql">
+        <where>
+            <if test="query.shopId != null and query.shopId != ''">
+                AND shop_id = #{query.shopId}
+            </if>
+            <if test="query.buyerId != null and query.buyerId != ''">
+                AND buyer_id LIKE CONCAT(#{query.buyerId},'%')
+            </if>
+            <if test="query.startPayedTime != null">
+                <![CDATA[ AND gmt_last_payed >= #{query.startPayedTime} ]]>
+            </if>
+            <if test="query.endPayedTime != null">
+                <![CDATA[ AND gmt_last_payed <= #{query.endPayedTime} ]]>
+            </if>
+            <if test="query.startConsulTime != null">
+                <![CDATA[ AND gmt_last_consultation >= #{query.startConsulTime} ]]>
+            </if>
+            <if test="query.endConsulTime != null ">
+                <![CDATA[ AND gmt_last_consultation <= #{query.endConsulTime} ]]>
+            </if>
+            <if test="query.sexs != null and query.sexs.size() > 0">
+                AND sex in
+                <foreach collection="query.sexs" item="sex" index="index" open="(" separator="," close=")">
+                    #{sex}
+                </foreach>
+            </if>
+            <if test="query.provinces != null and query.provinces.size() > 0">
+                AND province in
+                <foreach collection="query.provinces" item="province" index="index" open="(" separator="," close=")">
+                    #{province}
+                </foreach>
+            </if>
+            <if test="query.citys != null and query.citys.size() > 0">
+                AND city in
+                <foreach collection="query.citys" item="city" index="index" open="(" separator="," close=")">
+                    #{city}
+                </foreach>
+            </if>
+
+            <if test="query.areas != null and query.areas.size() > 0">
+                AND area in
+                <foreach collection="query.areas" item="area" index="index" open="(" separator="," close=")">
+                    #{area}
+                </foreach>
+            </if>
+            <if test="query.minOrderPayed != null">
+                <![CDATA[ AND order_payed >= #{query.minOrderPayed} ]]>
+            </if>
+            <if test="query.maxOrderPayed != null">
+                <![CDATA[ AND order_payed <= #{query.maxOrderPayed} ]]>
+            </if>
+
+            <if test="query.minOrderPayed30 != null ">
+                <![CDATA[ AND order_payed_30 >= #{query.minOrderPayed30} ]]>
+            </if>
+            <if test="query.maxOrderPayed30 != null ">
+                <![CDATA[ AND order_payed_30 <= #{query.maxOrderPayed30} ]]>
+            </if>
+
+            <if test="query.minOrderPayed60 != null ">
+                <![CDATA[ AND order_payed_60 >= #{query.minOrderPayed60} ]]>
+            </if>
+            <if test="query.maxOrderPayed60 != null">
+                <![CDATA[ AND order_payed_60 <= #{query.maxOrderPayed60} ]]>
+            </if>
+
+            <if test="query.minOrderPayed90 != null ">
+                <![CDATA[ AND order_payed_90 >= #{query.minOrderPayed90} ]]>
+            </if>
+            <if test="query.maxOrderPayed90 != null ">
+                <![CDATA[ AND order_payed_90 <= #{query.maxOrderPayed90} ]]>
+            </if>
+
+            <if test="query.minOrderPayed180 != null ">
+                <![CDATA[ AND order_payed_180 >= #{query.minOrderPayed180} ]]>
+            </if>
+            <if test="query.maxOrderPayed180 != null ">
+                <![CDATA[ AND order_payed_180 <= #{query.maxOrderPayed180} ]]>
+            </if>
+
+            <if test="query.minOrderCount != null">
+                <![CDATA[ AND order_count >= #{query.minOrderCount} ]]>
+            </if>
+            <if test="query.maxOrderCount != null">
+                <![CDATA[ AND order_count <= #{query.maxOrderCount} ]]>
+            </if>
+
+
+            <if test="query.minOrderCount30 != null ">
+                <![CDATA[ AND order_count_30 >= #{query.minOrderCount30} ]]>
+            </if>
+            <if test="query.maxOrderCount30 != null ">
+                <![CDATA[ AND order_count_30 <= #{query.maxOrderCount30} ]]>
+            </if>
+
+            <if test="query.minOrderCount60 != null ">
+                <![CDATA[ AND order_count_60 >= #{query.minOrderCount60} ]]>
+            </if>
+            <if test="query.maxOrderCount60 != null ">
+                <![CDATA[ AND order_count_60 <= #{query.maxOrderCount60} ]]>
+            </if>
+
+            <if test="query.minOrderCount90 != null ">
+                <![CDATA[ AND order_count_90 >= #{query.minOrderCount90} ]]>
+            </if>
+            <if test="query.maxOrderCount90 != null">
+                <![CDATA[ AND order_count_90 <= #{query.maxOrderCount90} ]]>
+            </if>
+
+            <if test="query.minOrderCount180 != null ">
+                <![CDATA[ AND order_count_180 >= #{query.minOrderCount180} ]]>
+            </if>
+            <if test="query.maxOrderCount180 != null ">
+                <![CDATA[ AND order_count_180 <= #{query.maxOrderCount180} ]]>
+            </if>
+
+
+
+
+
+            <if test="query.minAverageProduct != null ">
+                <![CDATA[ AND average_product >= #{query.minAverageProduct} ]]>
+            </if>
+            <if test="query.maxAverageProduct != null">
+                <![CDATA[ AND average_product <= #{query.maxAverageProduct} ]]>
+            </if>
+
+
+            <if test="query.minAverageProduct30 != null ">
+                <![CDATA[ AND average_product_30 >= #{query.minAverageProduct30} ]]>
+            </if>
+            <if test="query.maxAverageProduct30 != null ">
+                <![CDATA[ AND average_product_30 <= #{query.maxAverageProduct30} ]]>
+            </if>
+
+            <if test="query.minAverageProduct60 != null ">
+                <![CDATA[ AND average_product_60 >= #{query.minAverageProduct60} ]]>
+            </if>
+            <if test="query.maxAverageProduct60 != null ">
+                <![CDATA[ AND average_product_60 <= #{query.maxAverageProduct60} ]]>
+            </if>
+
+            <if test="query.minAverageProduct90 != null ">
+                <![CDATA[ AND average_product_90 >= #{query.minAverageProduct90} ]]>
+            </if>
+            <if test="query.maxAverageProduct90 != null ">
+                <![CDATA[ AND average_product_90 <= #{query.maxAverageProduct90} ]]>
+            </if>
+
+            <if test="query.minAverageProduct180 != null ">
+                <![CDATA[ AND average_product_180 >= #{query.minAverageProduct180} ]]>
+            </if>
+            <if test="query.maxAverageProduct180 != null ">
+                <![CDATA[ AND average_product_180 <= #{query.maxAverageProduct180} ]]>
+            </if>
+
+
+
+            <if test="query.minProductCount != null ">
+                <![CDATA[ AND product_count >= #{query.minProductCount} ]]>
+            </if>
+            <if test="query.maxProductCount != null">
+                <![CDATA[ AND product_count <= #{query.maxProductCount} ]]>
+            </if>
+
+
+            <if test="query.minProductCount30 != null ">
+                <![CDATA[ AND product_count_30 >= #{query.minProductCount30} ]]>
+            </if>
+            <if test="query.maxProductCount30 != null ">
+                <![CDATA[ AND product_count_30 <= #{query.maxProductCount30} ]]>
+            </if>
+
+            <if test="query.minProductCount60 != null ">
+                <![CDATA[ AND product_count_60 >= #{query.minProductCount60} ]]>
+            </if>
+            <if test="query.maxProductCount60 != null ">
+                <![CDATA[ AND product_count_60 <= #{query.maxProductCount60} ]]>
+            </if>
+
+            <if test="query.minProductCount90 != null ">
+                <![CDATA[ AND product_count_90 >= #{query.minProductCount90} ]]>
+            </if>
+            <if test="query.maxProductCount90 != null ">
+                <![CDATA[ AND product_count_90 <= #{query.maxProductCount90} ]]>
+            </if>
+
+            <if test="query.minProductCount180 != null">
+                <![CDATA[ AND product_count_180 >= #{query.minProductCount180} ]]>
+            </if>
+            <if test="query.maxProductCount180 != null">
+                <![CDATA[ AND product_count_180 <= #{query.maxProductCount180} ]]>
+            </if>
+
+
+            <if test="query.blackEnable != null and query.blackEnable != 0">
+                AND user_tags &amp; #{query.blackEnable} = #{query.blackEnable}
+            </if>
+            <if test="query.blackEnable != null and query.blackEnable == 0">
+                AND user_tags &amp; 1 != 1
+            </if>
+            <if test="query.labelTag != null">
+                AND label_tag &amp; #{query.labelTag} = #{query.labelTag}
+            </if>
+            <if test="query.orderConsultTag != null">
+                AND order_consult_tag &amp; #{query.orderConsultTag} = #{query.orderConsultTag}
+            </if>
+        </where>
+    </sql>
+
+
+    <sql id="singleLabelWhereSql">
+        <where>
+            shop_id = #{query.shopId}
+            <choose>
+                <when test="query.matchRule != null and query.matchRule == 1">
+                    <if test="query.startPayedTime != null">
+                        <![CDATA[ AND gmt_last_payed >= #{query.startPayedTime} ]]>
+                    </if>
+                    <if test="query.endPayedTime != null">
+                        <![CDATA[ AND gmt_last_payed <= #{query.endPayedTime} ]]>
+                    </if>
+
+                    <if test="query.startConsulTime != null">
+                        <![CDATA[ AND gmt_last_consultation >= #{query.startConsulTime} ]]>
+                    </if>
+                    <if test="query.endConsulTime != null ">
+                        <![CDATA[ AND gmt_last_consultation <= #{query.endConsulTime} ]]>
+                    </if>
+
+                    <if test="query.sexs != null and query.sexs.size() > 0">
+                        AND sex in
+                        <foreach collection="query.sexs" item="sex" index="index" open="(" separator="," close=")">
+                            #{sex}
+                        </foreach>
+                    </if>
+
+                    <if test="query.provinces != null and query.provinces.size() > 0">
+                        AND province in
+                        <foreach collection="query.provinces" item="province" index="index" open="(" separator="," close=")">
+                            #{province}
+                        </foreach>
+                    </if>
+
+                    <if test="query.citys != null and query.citys.size() > 0">
+                        AND city in
+                        <foreach collection="query.citys" item="city" index="index" open="(" separator="," close=")">
+                            #{city}
+                        </foreach>
+                    </if>
+
+                    <if test="query.areas != null and query.areas.size() > 0">
+                        AND area in
+                        <foreach collection="query.areas" item="area" index="index" open="(" separator="," close=")">
+                            #{area}
+                        </foreach>
+                    </if>
+
+                    <if test="query.minOrderPayed != null">
+                        <![CDATA[ AND order_payed >= #{query.minOrderPayed} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed != null">
+                        <![CDATA[ AND order_payed <= #{query.maxOrderPayed} ]]>
+                    </if>
+
+                    <if test="query.minOrderPayed30 != null ">
+                        <![CDATA[ AND order_payed_30 >= #{query.minOrderPayed30} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed30 != null ">
+                        <![CDATA[ AND order_payed_30 <= #{query.maxOrderPayed30} ]]>
+                    </if>
+
+                    <if test="query.minOrderPayed60 != null ">
+                        <![CDATA[ AND order_payed_60 >= #{query.minOrderPayed60} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed60 != null">
+                        <![CDATA[ AND order_payed_60 <= #{query.maxOrderPayed60} ]]>
+                    </if>
+
+                    <if test="query.minOrderPayed90 != null ">
+                        <![CDATA[ AND order_payed_90 >= #{query.minOrderPayed90} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed90 != null ">
+                        <![CDATA[ AND order_payed_90 <= #{query.maxOrderPayed90} ]]>
+                    </if>
+
+                    <if test="query.minOrderPayed180 != null ">
+                        <![CDATA[ AND order_payed_180 >= #{query.minOrderPayed180} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed180 != null ">
+                        <![CDATA[ AND order_payed_180 <= #{query.maxOrderPayed180} ]]>
+                    </if>
+
+                    <if test="query.minOrderCount != null">
+                        <![CDATA[ AND order_count >= #{query.minOrderCount} ]]>
+                    </if>
+                    <if test="query.maxOrderCount != null">
+                        <![CDATA[ AND order_count <= #{query.maxOrderCount} ]]>
+                    </if>
+
+
+                    <if test="query.minOrderCount30 != null ">
+                        <![CDATA[ AND order_count_30 >= #{query.minOrderCount30} ]]>
+                    </if>
+                    <if test="query.maxOrderCount30 != null ">
+                        <![CDATA[ AND order_count_30 <= #{query.maxOrderCount30} ]]>
+                    </if>
+
+                    <if test="query.minOrderCount60 != null ">
+                        <![CDATA[ AND order_count_60 >= #{query.minOrderCount60} ]]>
+                    </if>
+                    <if test="query.maxOrderCount60 != null ">
+                        <![CDATA[ AND order_count_60 <= #{query.maxOrderCount60} ]]>
+                    </if>
+
+                    <if test="query.minOrderCount90 != null ">
+                        <![CDATA[ AND order_count_90 >= #{query.minOrderCount90} ]]>
+                    </if>
+                    <if test="query.maxOrderCount90 != null">
+                        <![CDATA[ AND order_count_90 <= #{query.maxOrderCount90} ]]>
+                    </if>
+
+                    <if test="query.minOrderCount180 != null ">
+                        <![CDATA[ AND order_count_180 >= #{query.minOrderCount180} ]]>
+                    </if>
+                    <if test="query.maxOrderCount180 != null ">
+                        <![CDATA[ AND order_count_180 <= #{query.maxOrderCount180} ]]>
+                    </if>
+
+                    <if test="query.minAverageProduct != null ">
+                        <![CDATA[ AND average_product >= #{query.minAverageProduct} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct != null">
+                        <![CDATA[ AND average_product <= #{query.maxAverageProduct} ]]>
+                    </if>
+
+
+                    <if test="query.minAverageProduct30 != null ">
+                        <![CDATA[ AND average_product_30 >= #{query.minAverageProduct30} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct30 != null ">
+                        <![CDATA[ AND average_product_30 <= #{query.maxAverageProduct30} ]]>
+                    </if>
+
+                    <if test="query.minAverageProduct60 != null ">
+                        <![CDATA[ AND average_product_60 >= #{query.minAverageProduct60} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct60 != null ">
+                        <![CDATA[ AND average_product_60 <= #{query.maxAverageProduct60} ]]>
+                    </if>
+
+                    <if test="query.minAverageProduct90 != null ">
+                        <![CDATA[ AND average_product_90 >= #{query.minAverageProduct90} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct90 != null ">
+                        <![CDATA[ AND average_product_90 <= #{query.maxAverageProduct90} ]]>
+                    </if>
+
+                    <if test="query.minAverageProduct180 != null ">
+                        <![CDATA[ AND average_product_180 >= #{query.minAverageProduct180} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct180 != null ">
+                        <![CDATA[ AND average_product_180 <= #{query.maxAverageProduct180} ]]>
+                    </if>
+
+
+
+                    <if test="query.minProductCount != null ">
+                        <![CDATA[ AND product_count >= #{query.minProductCount} ]]>
+                    </if>
+                    <if test="query.maxProductCount != null">
+                        <![CDATA[ AND product_count <= #{query.maxProductCount} ]]>
+                    </if>
+
+                    <if test="query.minProductCount30 != null ">
+                        <![CDATA[ AND product_count_30 >= #{query.minProductCount30} ]]>
+                    </if>
+                    <if test="query.maxProductCount30 != null ">
+                        <![CDATA[ AND product_count_30 <= #{query.maxProductCount30} ]]>
+                    </if>
+
+                    <if test="query.minProductCount60 != null ">
+                        <![CDATA[ AND product_count_60 >= #{query.minProductCount60} ]]>
+                    </if>
+                    <if test="query.maxProductCount60 != null ">
+                        <![CDATA[ AND product_count_60 <= #{query.maxProductCount60} ]]>
+                    </if>
+
+                    <if test="query.minProductCount90 != null ">
+                        <![CDATA[ AND product_count_90 >= #{query.minProductCount90} ]]>
+                    </if>
+                    <if test="query.maxProductCount90 != null ">
+                        <![CDATA[ AND product_count_90 <= #{query.maxProductCount90} ]]>
+                    </if>
+
+                    <if test="query.minProductCount180 != null">
+                        <![CDATA[ AND product_count_180 >= #{query.minProductCount180} ]]>
+                    </if>
+                    <if test="query.maxProductCount180 != null">
+                        <![CDATA[ AND product_count_180 <= #{query.maxProductCount180} ]]>
+                    </if>
+                    <if test="query.orderConsultTag != null and query.nonOrderConsultTag == null">
+                        AND order_consult_tag &amp; #{query.orderConsultTag} = #{query.orderConsultTag}
+                    </if>
+                    <if test="query.orderConsultTag == null and query.nonOrderConsultTag != null">
+                        AND ~order_consult_tag &amp; #{query.nonOrderConsultTag} = #{query.nonOrderConsultTag}
+                    </if>
+                    <if test="query.orderConsultTag != null and query.nonOrderConsultTag != null">
+                        AND (order_consult_tag &amp; #{query.orderConsultTag} = #{query.orderConsultTag}
+                        or ~order_consult_tag &amp; #{query.nonOrderConsultTag} = #{query.nonOrderConsultTag})
+                    </if>
+
+
+                </when>
+                <otherwise>
+                    and ( 1=2
+                    <if test="query.startPayedTime != null and query.endPayedTime != null">
+                        <![CDATA[ OR (gmt_last_payed >= #{query.startPayedTime} AND gmt_last_payed <= #{query.endPayedTime}) ]]>
+                    </if>
+                    <if test="query.startPayedTime != null and query.endPayedTime == null">
+                        <![CDATA[ OR query.gmt_last_payed >= #{query.startPayedTime} ]]>
+                    </if>
+                    <if test="query.startPayedTime == null and query.endPayedTime != null">
+                        <![CDATA[ OR gmt_last_payed >= #{query.endPayedTime} ]]>
+                    </if>
+
+                    <if test="query.startConsulTime != null and query.endConsulTime != null ">
+                        <![CDATA[ OR (gmt_last_consultation >= #{query.startConsulTime} AND gmt_last_consultation <= #{query.endConsulTime}) ]]>
+                    </if>
+                    <if test="query.startConsulTime != null and query.endConsulTime == null">
+                        <![CDATA[ OR gmt_last_consultation >= #{query.startConsulTime}  ]]>
+                    </if>
+                    <if test="query.startConsulTime == null and query.endConsulTime != null">
+                        <![CDATA[ OR gmt_last_consultation <= #{query.endConsulTime} ]]>
+                    </if>
+
+                    <if test="query.sexs != null and query.sexs.size() > 0">
+                        OR sex in
+                        <foreach collection="query.sexs" item="sex" index="index" open="(" separator="," close=")">
+                            #{sex}
+                        </foreach>
+                    </if>
+
+                    <if test="query.provinces != null and query.provinces.size() > 0">
+                        OR province in
+                        <foreach collection="query.provinces" item="province" index="index" open="(" separator="," close=")">
+                            #{province}
+                        </foreach>
+                    </if>
+
+                    <if test="query.citys != null and query.citys.size() > 0">
+                        OR city in
+                        <foreach collection="query.citys" item="city" index="index" open="(" separator="," close=")">
+                            #{city}
+                        </foreach>
+                    </if>
+
+                    <if test="query.areas != null and query.areas.size() > 0">
+                        OR area in
+                        <foreach collection="query.areas" item="area" index="index" open="(" separator="," close=")">
+                            #{area}
+                        </foreach>
+                    </if>
+
+                    <if test="query.minOrderPayed != null and query.maxOrderPayed != null">
+                        <![CDATA[ OR (order_payed >= #{query.minOrderPayed} AND order_payed <= #{query.maxOrderPayed} ) ]]>
+                    </if>
+                    <if test="query.maxOrderPayed != null and query.minOrderPayed == null">
+                        <![CDATA[ OR order_payed <= #{query.maxOrderPayed} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed == null and query.minOrderPayed != null">
+                        <![CDATA[ OR order_payed >= #{query.minOrderPayed} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderPayed30 != null and query.minOrderPayed30 != null">
+                        <![CDATA[ OR (order_payed_30 <= #{query.maxOrderPayed30} AND order_payed_30 >= #{query.minOrderPayed30} ) ]]>
+                    </if>
+                    <if test="query.maxOrderPayed30 != null and query.minOrderPayed30 == null">
+                        <![CDATA[ OR order_payed_30 <= #{query.maxOrderPayed30} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed30 == null and query.minOrderPayed30 != null ">
+                        <![CDATA[ OR order_payed_30 >= #{query.minOrderPayed30} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderPayed60 != null and query.minOrderPayed60 != null">
+                        <![CDATA[ OR (order_payed_60 <= #{query.maxOrderPayed60}  AND order_payed_60 >= #{query.minOrderPayed60}) ]]>
+                    </if>
+                    <if test="query.maxOrderPayed60 != null and query.minOrderPayed60 == null">
+                        <![CDATA[ OR order_payed_60 <= #{query.maxOrderPayed60} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed60 == null and query.minOrderPayed60 != null ">
+                        <![CDATA[ OR order_payed_60 >= #{query.minOrderPayed60} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderPayed90 != null and  query.minOrderPayed90 != null ">
+                        <![CDATA[ OR (order_payed_90 <= #{query.maxOrderPayed90} AND order_payed_90 >= #{query.minOrderPayed90}) ) ]]>
+                    </if>
+                    <if test="query.maxOrderPayed90 != null and query.minOrderPayed90 == null">
+                        <![CDATA[ OR order_payed_90 <= #{query.maxOrderPayed90} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed90 == null and query.minOrderPayed90 != null ">
+                        <![CDATA[ OR order_payed_90 >= #{query.minOrderPayed90} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderPayed180 != null and query.minOrderPayed180 != null ">
+                        <![CDATA[ OR (order_payed_180 <= #{query.maxOrderPayed180} AND order_payed_180 >= #{query.minOrderPayed180} ) ]]>
+                    </if>
+                    <if test="query.maxOrderPayed180 != null and query.minOrderPayed180 == null">
+                        <![CDATA[ OR order_payed_180 <= #{query.maxOrderPayed180} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed180 == null and query.minOrderPayed180 != null ">
+                        <![CDATA[ OR order_payed_180 >= #{query.minOrderPayed180} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderCount != null and query.minOrderCount != null">
+                        <![CDATA[ OR (order_count <= #{query.maxOrderCount} AND order_count >= #{query.minOrderCount}) ]]>
+                    </if>
+                    <if test="query.maxOrderCount != null and query.minOrderCount == null">
+                        <![CDATA[ OR order_count <= #{query.maxOrderCount} ]]>
+                    </if>
+                    <if test="query.maxOrderCount == null and query.minOrderCount != null">
+                        <![CDATA[ OR order_count >= #{query.minOrderCount} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderCount30 != null and query.minOrderCount30 != null">
+                        <![CDATA[ OR (order_count_30 <= #{query.maxOrderCount30} AND order_count_30 >= #{query.minOrderCount30} ) ]]>
+                    </if>
+                    <if test="query.maxOrderCount30 != null and query.minOrderCount30 == null ">
+                        <![CDATA[ OR order_count_30 <= #{query.maxOrderCount30} ]]>
+                    </if>
+                    <if test="query.maxOrderCount30 == null and query.minOrderCount30 != null ">
+                        <![CDATA[ OR order_count_30 >= #{query.minOrderCount30} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderCount60 != null and query.minOrderCount60 != null">
+                        <![CDATA[ OR (order_count_60 <= #{query.maxOrderCount60} AND order_count_60 >= #{query.minOrderCount60} ) ]]>
+                    </if>
+                    <if test="query.maxOrderCount60 != null and query.minOrderCount60 == null ">
+                        <![CDATA[ OR order_count_60 <= #{query.maxOrderCount60} ]]>
+                    </if>
+                    <if test="query.maxOrderCount60 == null and query.minOrderCount60 != null ">
+                        <![CDATA[ OR order_count_60 >= #{query.minOrderCount60} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderCount90 != null and query.minOrderCount90 != null">
+                        <![CDATA[ OR (order_count_90 <= #{query.maxOrderCount90} AND AND order_count_90 >= #{query.minOrderCount90}]]>
+                    </if>
+                    <if test="query.maxOrderCount90 != null and query.minOrderCount90 == null">
+                        <![CDATA[ OR order_count_90 <= #{query.maxOrderCount90} ]]>
+                    </if>
+                    <if test="query.maxOrderCount90 == null and query.minOrderCount90 != null ">
+                        <![CDATA[ OR order_count_90 >= #{query.minOrderCount90} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderCount180 != null and query.minOrderCount180 != null ">
+                        <![CDATA[ OR (order_count_180 <= #{query.maxOrderCount180} AND order_count_180 >= #{query.minOrderCount180}) ]]>
+                    </if>
+                    <if test="query.maxOrderCount180 != null and query.minOrderCount180 == null ">
+                        <![CDATA[ OR order_count_180 <= #{query.maxOrderCount180} ]]>
+                    </if>
+                    <if test="query.maxOrderCount180 == null and query.minOrderCount180 != null ">
+                        <![CDATA[ OR order_count_180 >= #{query.minOrderCount180} ]]>
+                    </if>
+
+
+                    <if test="query.maxAverageProduct != null and query.minAverageProduct != null ">
+                        <![CDATA[ OR (average_product <= #{query.maxAverageProduct} AND average_product >= #{query.minAverageProduct} ) ]]>
+                    </if>
+                    <if test="query.maxAverageProduct != null and query.minAverageProduct == null">
+                        <![CDATA[ OR average_product <= #{query.maxAverageProduct} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct == null and query.minAverageProduct != null ">
+                        <![CDATA[ OR average_product >= #{query.minAverageProduct} ]]>
+                    </if>
+
+
+                    <if test="query.maxAverageProduct30 != null and query.minAverageProduct30 != null">
+                        <![CDATA[ OR (average_product_30 <= #{query.maxAverageProduct30} AND average_product_30 >= #{query.minAverageProduct30}) ]]>
+                    </if>
+                    <if test="query.maxAverageProduct30 != null and query.minAverageProduct30 == null">
+                        <![CDATA[ OR average_product_30 <= #{query.maxAverageProduct30} ]]>
+                    </if>
+                    <if test="query.minAverageProduct30 == null and query.minAverageProduct30 != null">
+                        <![CDATA[ OR average_product_30 >= #{query.minAverageProduct30} ]]>
+                    </if>
+
+
+                    <if test="query.maxAverageProduct60 != null and query.minAverageProduct60 != null ">
+                        <![CDATA[ OR (average_product_60 <= #{query.maxAverageProduct60} AND average_product_60 >= #{query.minAverageProduct60}) ]]>
+                    </if>
+                    <if test="query.maxAverageProduct60 != null and query.minAverageProduct60 == null ">
+                        <![CDATA[ OR average_product_60 <= #{query.maxAverageProduct60} ]]>
+                    </if>
+                    <if test="query.minAverageProduct60 == null and query.minAverageProduct60 != null  ">
+                        <![CDATA[ OR average_product_60 >= #{query.minAverageProduct60} ]]>
+                    </if>
+
+                    <if test="query.maxAverageProduct90 != null and query.minAverageProduct90 != null">
+                        <![CDATA[ OR (average_product_90 <= #{query.maxAverageProduct90} AND average_product_90 >= #{query.minAverageProduct90} ) ]]>
+                    </if>
+                    <if test="query.maxAverageProduct90 != null and query.minAverageProduct90 == null">
+                        <![CDATA[ OR average_product_90 <= #{query.maxAverageProduct90} ]]>
+                    </if>
+                    <if test="query.minAverageProduct90 == null and query.minAverageProduct90 != null">
+                        <![CDATA[ OR average_product_90 >= #{query.minAverageProduct90} ]]>
+                    </if>
+
+
+                    <if test="query.maxAverageProduct180 != null and query.minAverageProduct180 != null">
+                        <![CDATA[ OR (average_product_180 <= #{query.maxAverageProduct180} AND average_product_180 >= #{query.minAverageProduct180}) ]]>
+                    </if>
+                    <if test="query.maxAverageProduct180 != null and query.minAverageProduct180 == null">
+                        <![CDATA[ OR average_product_180 <= #{query.maxAverageProduct180} ]]>
+                    </if>
+                    <if test="query.minAverageProduct180 == null and query.minAverageProduct180 != null">
+                        <![CDATA[ OR average_product_180 >= #{query.minAverageProduct180} ]]>
+                    </if>
+
+
+                    <if test="query.maxProductCount != null and query.minProductCount != null ">
+                        <![CDATA[ OR (product_count <= #{query.maxProductCount} AND product_count >= #{query.minProductCount}) ]]>
+                    </if>
+                    <if test="query.maxProductCount != null and query.minProductCount == null ">
+                        <![CDATA[ OR product_count <= #{query.maxProductCount} ]]>
+                    </if>
+                    <if test="query.minProductCount == null and query.minProductCount != null ">
+                        <![CDATA[ OR product_count >= #{query.minProductCount} ]]>
+                    </if>
+
+
+                    <if test="query.maxProductCount30 != null and query.minProductCount30 != null ">
+                        <![CDATA[ OR (product_count_30 <= #{query.maxProductCount30} AND product_count_30 >= #{query.minProductCount30})]]>
+                    </if>
+                    <if test="query.maxProductCount30 != null and query.minProductCount30 == null ">
+                        <![CDATA[ OR product_count_30 <= #{query.maxProductCount30} ]]>
+                    </if>
+                    <if test="query.minProductCount30 == null and query.minProductCount30 != null ">
+                        <![CDATA[ OR product_count_30 >= #{query.minProductCount30} ]]>
+                    </if>
+
+
+                    <if test="query.maxProductCount60 != null and query.minProductCount60 != null ">
+                        <![CDATA[ OR (product_count_60 <= #{query.maxProductCount60} AND product_count_60 >= #{query.minProductCount60})]]>
+                    </if>
+                    <if test="query.maxProductCount60 != null and query.minProductCount60 = null ">
+                        <![CDATA[ OR product_count_60 <= #{query.maxProductCount60} ]]>
+                    </if>
+                    <if test="query.minProductCount60 == null and query.minProductCount60 != null ">
+                        <![CDATA[ OR product_count_60 >= #{query.minProductCount60} ]]>
+                    </if>
+
+
+                    <if test="query.maxProductCount90 != null and query.minProductCount90 != null">
+                        <![CDATA[ OR (product_count_90 <= #{query.maxProductCount90} AND product_count_90 >= #{query.minProductCount90}) ]]>
+                    </if>
+                    <if test="query.maxProductCount90 != null and query.minProductCount90 == null">
+                        <![CDATA[ OR product_count_90 <= #{query.maxProductCount90} ]]>
+                    </if>
+                    <if test="query.minProductCount90 == null and query.minProductCount90 != null">
+                        <![CDATA[ OR product_count_90 >= #{query.minProductCount90} ]]>
+                    </if>
+
+
+                    <if test="query.maxProductCount180 != null and query.minProductCount180 != null">
+                        <![CDATA[ OR (product_count_180 <= #{query.maxProductCount180} AND product_count_180 >= #{query.minProductCount180}) ]]>
+                    </if>
+                    <if test="query.maxProductCount180 != null and query.minProductCount180 == null">
+                        <![CDATA[ OR product_count_180 <= #{query.maxProductCount180} ]]>
+                    </if>
+                    <if test="query.minProductCount180 == null and query.minProductCount180 != null">
+                        <![CDATA[ OR product_count_180 >= #{query.minProductCount180} ]]>
+                    </if>
+                    <if test="query.orderConsultTag != null">
+                        OR order_consult_tag &amp; #{query.orderConsultTag} = #{query.orderConsultTag}
+                    </if>
+                    <if test="query.nonOrderConsultTag != null">
+                        OR ~order_consult_tag &amp; #{query.nonOrderConsultTag} = #{query.nonOrderConsultTag}
+                    </if>
+                    )
+                </otherwise>
+            </choose>
+
+
+            <if test="query.sex != null ">
+                AND sex = #{query.sex}
+            </if>
+
+            <if test="query.province != null and query.province != ''">
+                AND province  = #{query.province}
+            </if>
+
+            <if test="query.city != null and query.city != ''">
+                AND city  = #{query.city}
+            </if>
+
+            <if test="query.blackEnable != null and query.blackEnable != 0">
+                AND user_tags &amp; #{query.blackEnable} = #{query.blackEnable}
+            </if>
+            <if test="query.blackEnable != null and query.blackEnable == 0">
+                AND user_tags &amp; 1 != 1
+            </if>
+            <if test="query.labelTag != null">
+                AND label_tag &amp; #{query.labelTag} = #{query.labelTag}
+            </if>
+            <if test="query.originalCondition != null ">
+                <if test="query.originalCondition.startPayedTime != null">
+                    <![CDATA[ AND gmt_last_payed >= #{query.originalCondition.startPayedTime} ]]>
+                </if>
+                <if test="query.originalCondition.endPayedTime != null">
+                    <![CDATA[ AND gmt_last_payed <= #{query.originalCondition.endPayedTime} ]]>
+                </if>
+
+                <if test="query.originalCondition.startConsulTime != null">
+                    <![CDATA[ AND gmt_last_consultation >= #{query.originalCondition.startConsulTime} ]]>
+                </if>
+                <if test="query.originalCondition.endConsulTime != null ">
+                    <![CDATA[ AND gmt_last_consultation <= #{query.originalCondition.endConsulTime} ]]>
+                </if>
+
+                <if test="query.originalCondition.minOrderPayed != null">
+                    <![CDATA[ AND order_payed >= #{query.originalCondition.minOrderPayed} ]]>
+                </if>
+                <if test="query.originalCondition.maxOrderPayed != null">
+                    <![CDATA[ AND order_payed <= #{query.originalCondition.maxOrderPayed} ]]>
+                </if>
+
+                <if test="query.originalCondition.minOrderCount != null">
+                    <![CDATA[ AND order_count >= #{query.originalCondition.minOrderCount} ]]>
+                </if>
+                <if test="query.originalCondition.maxOrderCount != null">
+                    <![CDATA[ AND order_count <= #{query.originalCondition.maxOrderCount} ]]>
+                </if>
+
+                <if test="query.originalCondition.minAverageProduct != null ">
+                    <![CDATA[ AND average_product >= #{query.originalCondition.minAverageProduct} ]]>
+                </if>
+                <if test="query.originalCondition.maxAverageProduct != null">
+                    <![CDATA[ AND average_product <= #{query.originalCondition.maxAverageProduct} ]]>
+                </if>
+
+                <if test="query.originalCondition.minProductCount != null ">
+                    <![CDATA[ AND product_count >= #{query.originalCondition.minProductCount} ]]>
+                </if>
+                <if test="query.originalCondition.maxProductCount != null">
+                    <![CDATA[ AND product_count <= #{query.originalCondition.maxProductCount} ]]>
+                </if>
+
+            </if>
+            <if test="query.buyerId != null and query.buyerId != ''">
+                AND buyer_id LIKE CONCAT(#{query.buyerId},'%')
+            </if>
+            <if test="query.smsStatus != null">
+                AND phone != ''
+            </if>
+        </where>
+    </sql>
+    <sql id="singleLabelWhereSqlWithArea">
+        <where>
+            shop_id = #{query.shopId}
+            <choose>
+                <when test="query.matchRule != null and query.matchRule == 1">
+                    <if test="query.startPayedTime != null">
+                        <![CDATA[ AND gmt_last_payed >= #{query.startPayedTime} ]]>
+                    </if>
+                    <if test="query.endPayedTime != null">
+                        <![CDATA[ AND gmt_last_payed <= #{query.endPayedTime} ]]>
+                    </if>
+
+                    <if test="query.startConsulTime != null">
+                        <![CDATA[ AND gmt_last_consultation >= #{query.startConsulTime} ]]>
+                    </if>
+                    <if test="query.endConsulTime != null ">
+                        <![CDATA[ AND gmt_last_consultation <= #{query.endConsulTime} ]]>
+                    </if>
+
+                    <if test="query.sexs != null and query.sexs.size() > 0">
+                        AND sex in
+                        <foreach collection="query.sexs" item="sex" index="index" open="(" separator="," close=")">
+                            #{sex}
+                        </foreach>
+                    </if>
+
+                    <if test="query.provinces != null and query.provinces.size() > 0">
+                        AND province in
+                        <foreach collection="query.provinces" item="province" index="index" open="(" separator="," close=")">
+                            #{province}
+                        </foreach>
+                    </if>
+
+                    <if test="query.citys != null and query.citys.size() > 0">
+                        AND city in
+                        <foreach collection="query.citys" item="city" index="index" open="(" separator="," close=")">
+                            #{city}
+                        </foreach>
+                    </if>
+
+                    <if test="query.areas != null and query.areas.size() > 0">
+                        AND area in
+                        <foreach collection="query.areas" item="area" index="index" open="(" separator="," close=")">
+                            #{area}
+                        </foreach>
+                    </if>
+
+                    <if test="query.minOrderPayed != null">
+                        <![CDATA[ AND order_payed >= #{query.minOrderPayed} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed != null">
+                        <![CDATA[ AND order_payed <= #{query.maxOrderPayed} ]]>
+                    </if>
+
+                    <if test="query.minOrderPayed30 != null ">
+                        <![CDATA[ AND order_payed_30 >= #{query.minOrderPayed30} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed30 != null ">
+                        <![CDATA[ AND order_payed_30 <= #{query.maxOrderPayed30} ]]>
+                    </if>
+
+                    <if test="query.minOrderPayed60 != null ">
+                        <![CDATA[ AND order_payed_60 >= #{query.minOrderPayed60} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed60 != null">
+                        <![CDATA[ AND order_payed_60 <= #{query.maxOrderPayed60} ]]>
+                    </if>
+
+                    <if test="query.minOrderPayed90 != null ">
+                        <![CDATA[ AND order_payed_90 >= #{query.minOrderPayed90} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed90 != null ">
+                        <![CDATA[ AND order_payed_90 <= #{query.maxOrderPayed90} ]]>
+                    </if>
+
+                    <if test="query.minOrderPayed180 != null ">
+                        <![CDATA[ AND order_payed_180 >= #{query.minOrderPayed180} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed180 != null ">
+                        <![CDATA[ AND order_payed_180 <= #{query.maxOrderPayed180} ]]>
+                    </if>
+
+                    <if test="query.minOrderCount != null">
+                        <![CDATA[ AND order_count >= #{query.minOrderCount} ]]>
+                    </if>
+                    <if test="query.maxOrderCount != null">
+                        <![CDATA[ AND order_count <= #{query.maxOrderCount} ]]>
+                    </if>
+
+
+                    <if test="query.minOrderCount30 != null ">
+                        <![CDATA[ AND order_count_30 >= #{query.minOrderCount30} ]]>
+                    </if>
+                    <if test="query.maxOrderCount30 != null ">
+                        <![CDATA[ AND order_count_30 <= #{query.maxOrderCount30} ]]>
+                    </if>
+
+                    <if test="query.minOrderCount60 != null ">
+                        <![CDATA[ AND order_count_60 >= #{query.minOrderCount60} ]]>
+                    </if>
+                    <if test="query.maxOrderCount60 != null ">
+                        <![CDATA[ AND order_count_60 <= #{query.maxOrderCount60} ]]>
+                    </if>
+
+                    <if test="query.minOrderCount90 != null ">
+                        <![CDATA[ AND order_count_90 >= #{query.minOrderCount90} ]]>
+                    </if>
+                    <if test="query.maxOrderCount90 != null">
+                        <![CDATA[ AND order_count_90 <= #{query.maxOrderCount90} ]]>
+                    </if>
+
+                    <if test="query.minOrderCount180 != null ">
+                        <![CDATA[ AND order_count_180 >= #{query.minOrderCount180} ]]>
+                    </if>
+                    <if test="query.maxOrderCount180 != null ">
+                        <![CDATA[ AND order_count_180 <= #{query.maxOrderCount180} ]]>
+                    </if>
+
+                    <if test="query.minAverageProduct != null ">
+                        <![CDATA[ AND average_product >= #{query.minAverageProduct} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct != null">
+                        <![CDATA[ AND average_product <= #{query.maxAverageProduct} ]]>
+                    </if>
+
+
+                    <if test="query.minAverageProduct30 != null ">
+                        <![CDATA[ AND average_product_30 >= #{query.minAverageProduct30} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct30 != null ">
+                        <![CDATA[ AND average_product_30 <= #{query.maxAverageProduct30} ]]>
+                    </if>
+
+                    <if test="query.minAverageProduct60 != null ">
+                        <![CDATA[ AND average_product_60 >= #{query.minAverageProduct60} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct60 != null ">
+                        <![CDATA[ AND average_product_60 <= #{query.maxAverageProduct60} ]]>
+                    </if>
+
+                    <if test="query.minAverageProduct90 != null ">
+                        <![CDATA[ AND average_product_90 >= #{query.minAverageProduct90} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct90 != null ">
+                        <![CDATA[ AND average_product_90 <= #{query.maxAverageProduct90} ]]>
+                    </if>
+
+                    <if test="query.minAverageProduct180 != null ">
+                        <![CDATA[ AND average_product_180 >= #{query.minAverageProduct180} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct180 != null ">
+                        <![CDATA[ AND average_product_180 <= #{query.maxAverageProduct180} ]]>
+                    </if>
+
+
+
+                    <if test="query.minProductCount != null ">
+                        <![CDATA[ AND product_count >= #{query.minProductCount} ]]>
+                    </if>
+                    <if test="query.maxProductCount != null">
+                        <![CDATA[ AND product_count <= #{query.maxProductCount} ]]>
+                    </if>
+
+                    <if test="query.minProductCount30 != null ">
+                        <![CDATA[ AND product_count_30 >= #{query.minProductCount30} ]]>
+                    </if>
+                    <if test="query.maxProductCount30 != null ">
+                        <![CDATA[ AND product_count_30 <= #{query.maxProductCount30} ]]>
+                    </if>
+
+                    <if test="query.minProductCount60 != null ">
+                        <![CDATA[ AND product_count_60 >= #{query.minProductCount60} ]]>
+                    </if>
+                    <if test="query.maxProductCount60 != null ">
+                        <![CDATA[ AND product_count_60 <= #{query.maxProductCount60} ]]>
+                    </if>
+
+                    <if test="query.minProductCount90 != null ">
+                        <![CDATA[ AND product_count_90 >= #{query.minProductCount90} ]]>
+                    </if>
+                    <if test="query.maxProductCount90 != null ">
+                        <![CDATA[ AND product_count_90 <= #{query.maxProductCount90} ]]>
+                    </if>
+
+                    <if test="query.minProductCount180 != null">
+                        <![CDATA[ AND product_count_180 >= #{query.minProductCount180} ]]>
+                    </if>
+                    <if test="query.maxProductCount180 != null">
+                        <![CDATA[ AND product_count_180 <= #{query.maxProductCount180} ]]>
+                    </if>
+                    <if test="query.orderConsultTag != null and query.nonOrderConsultTag == null">
+                        AND order_consult_tag &amp; #{query.orderConsultTag} = #{query.orderConsultTag}
+                    </if>
+                    <if test="query.orderConsultTag == null and query.nonOrderConsultTag != null">
+                        AND ~order_consult_tag &amp; #{query.nonOrderConsultTag} = #{query.nonOrderConsultTag}
+                    </if>
+                    <if test="query.orderConsultTag != null and query.nonOrderConsultTag != null">
+                        AND (order_consult_tag &amp; #{query.orderConsultTag} = #{query.orderConsultTag}
+                        or ~order_consult_tag &amp; #{query.nonOrderConsultTag} = #{query.nonOrderConsultTag})
+                    </if>
+
+
+                </when>
+                <otherwise>
+                    and ( 1=2
+                    <if test="query.startPayedTime != null and query.endPayedTime != null">
+                        <![CDATA[ OR (gmt_last_payed >= #{query.startPayedTime} AND gmt_last_payed <= #{query.endPayedTime}) ]]>
+                    </if>
+                    <if test="query.startPayedTime != null and query.endPayedTime == null">
+                        <![CDATA[ OR query.gmt_last_payed >= #{query.startPayedTime} ]]>
+                    </if>
+                    <if test="query.startPayedTime == null and query.endPayedTime != null">
+                        <![CDATA[ OR gmt_last_payed >= #{query.endPayedTime} ]]>
+                    </if>
+
+                    <if test="query.startConsulTime != null and query.endConsulTime != null ">
+                        <![CDATA[ OR (gmt_last_consultation >= #{query.startConsulTime} AND gmt_last_consultation <= #{query.endConsulTime}) ]]>
+                    </if>
+                    <if test="query.startConsulTime != null and query.endConsulTime == null">
+                        <![CDATA[ OR gmt_last_consultation >= #{query.startConsulTime}  ]]>
+                    </if>
+                    <if test="query.startConsulTime == null and query.endConsulTime != null">
+                        <![CDATA[ OR gmt_last_consultation <= #{query.endConsulTime} ]]>
+                    </if>
+
+                    <if test="query.sexs != null and query.sexs.size() > 0">
+                        OR sex in
+                        <foreach collection="query.sexs" item="sex" index="index" open="(" separator="," close=")">
+                            #{sex}
+                        </foreach>
+                    </if>
+
+                    <if test="query.provinces != null and query.provinces.size() > 0">
+                        OR province in
+                        <foreach collection="query.provinces" item="province" index="index" open="(" separator="," close=")">
+                            #{province}
+                        </foreach>
+                    </if>
+
+                    <if test="query.citys != null and query.citys.size() > 0">
+                        OR city in
+                        <foreach collection="query.citys" item="city" index="index" open="(" separator="," close=")">
+                            #{city}
+                        </foreach>
+                    </if>
+
+                    <if test="query.areas != null and query.areas.size() > 0">
+                        OR area in
+                        <foreach collection="query.areas" item="area" index="index" open="(" separator="," close=")">
+                            #{area}
+                        </foreach>
+                    </if>
+
+                    <if test="query.minOrderPayed != null and query.maxOrderPayed != null">
+                        <![CDATA[ OR (order_payed >= #{query.minOrderPayed} AND order_payed <= #{query.maxOrderPayed} ) ]]>
+                    </if>
+                    <if test="query.maxOrderPayed != null and query.minOrderPayed == null">
+                        <![CDATA[ OR order_payed <= #{query.maxOrderPayed} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed == null and query.minOrderPayed != null">
+                        <![CDATA[ OR order_payed >= #{query.minOrderPayed} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderPayed30 != null and query.minOrderPayed30 != null">
+                        <![CDATA[ OR (order_payed_30 <= #{query.maxOrderPayed30} AND order_payed_30 >= #{query.minOrderPayed30} ) ]]>
+                    </if>
+                    <if test="query.maxOrderPayed30 != null and query.minOrderPayed30 == null">
+                        <![CDATA[ OR order_payed_30 <= #{query.maxOrderPayed30} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed30 == null and query.minOrderPayed30 != null ">
+                        <![CDATA[ OR order_payed_30 >= #{query.minOrderPayed30} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderPayed60 != null and query.minOrderPayed60 != null">
+                        <![CDATA[ OR (order_payed_60 <= #{query.maxOrderPayed60}  AND order_payed_60 >= #{query.minOrderPayed60}) ]]>
+                    </if>
+                    <if test="query.maxOrderPayed60 != null and query.minOrderPayed60 == null">
+                        <![CDATA[ OR order_payed_60 <= #{query.maxOrderPayed60} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed60 == null and query.minOrderPayed60 != null ">
+                        <![CDATA[ OR order_payed_60 >= #{query.minOrderPayed60} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderPayed90 != null and  query.minOrderPayed90 != null ">
+                        <![CDATA[ OR (order_payed_90 <= #{query.maxOrderPayed90} AND order_payed_90 >= #{query.minOrderPayed90}) ) ]]>
+                    </if>
+                    <if test="query.maxOrderPayed90 != null and query.minOrderPayed90 == null">
+                        <![CDATA[ OR order_payed_90 <= #{query.maxOrderPayed90} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed90 == null and query.minOrderPayed90 != null ">
+                        <![CDATA[ OR order_payed_90 >= #{query.minOrderPayed90} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderPayed180 != null and query.minOrderPayed180 != null ">
+                        <![CDATA[ OR (order_payed_180 <= #{query.maxOrderPayed180} AND order_payed_180 >= #{query.minOrderPayed180} ) ]]>
+                    </if>
+                    <if test="query.maxOrderPayed180 != null and query.minOrderPayed180 == null">
+                        <![CDATA[ OR order_payed_180 <= #{query.maxOrderPayed180} ]]>
+                    </if>
+                    <if test="query.maxOrderPayed180 == null and query.minOrderPayed180 != null ">
+                        <![CDATA[ OR order_payed_180 >= #{query.minOrderPayed180} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderCount != null and query.minOrderCount != null">
+                        <![CDATA[ OR (order_count <= #{query.maxOrderCount} AND order_count >= #{query.minOrderCount}) ]]>
+                    </if>
+                    <if test="query.maxOrderCount != null and query.minOrderCount == null">
+                        <![CDATA[ OR order_count <= #{query.maxOrderCount} ]]>
+                    </if>
+                    <if test="query.maxOrderCount == null and query.minOrderCount != null">
+                        <![CDATA[ OR order_count >= #{query.minOrderCount} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderCount30 != null and query.minOrderCount30 != null">
+                        <![CDATA[ OR (order_count_30 <= #{query.maxOrderCount30} AND order_count_30 >= #{query.minOrderCount30} ) ]]>
+                    </if>
+                    <if test="query.maxOrderCount30 != null and query.minOrderCount30 == null ">
+                        <![CDATA[ OR order_count_30 <= #{query.maxOrderCount30} ]]>
+                    </if>
+                    <if test="query.maxOrderCount30 == null and query.minOrderCount30 != null ">
+                        <![CDATA[ OR order_count_30 >= #{query.minOrderCount30} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderCount60 != null and query.minOrderCount60 != null">
+                        <![CDATA[ OR (order_count_60 <= #{query.maxOrderCount60} AND order_count_60 >= #{query.minOrderCount60} ) ]]>
+                    </if>
+                    <if test="query.maxOrderCount60 != null and query.minOrderCount60 == null ">
+                        <![CDATA[ OR order_count_60 <= #{query.maxOrderCount60} ]]>
+                    </if>
+                    <if test="query.maxOrderCount60 == null and query.minOrderCount60 != null ">
+                        <![CDATA[ OR order_count_60 >= #{query.minOrderCount60} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderCount90 != null and query.minOrderCount90 != null">
+                        <![CDATA[ OR (order_count_90 <= #{query.maxOrderCount90} AND AND order_count_90 >= #{query.minOrderCount90}]]>
+                    </if>
+                    <if test="query.maxOrderCount90 != null and query.minOrderCount90 == null">
+                        <![CDATA[ OR order_count_90 <= #{query.maxOrderCount90} ]]>
+                    </if>
+                    <if test="query.maxOrderCount90 == null and query.minOrderCount90 != null ">
+                        <![CDATA[ OR order_count_90 >= #{query.minOrderCount90} ]]>
+                    </if>
+
+
+                    <if test="query.maxOrderCount180 != null and query.minOrderCount180 != null ">
+                        <![CDATA[ OR (order_count_180 <= #{query.maxOrderCount180} AND order_count_180 >= #{query.minOrderCount180}) ]]>
+                    </if>
+                    <if test="query.maxOrderCount180 != null and query.minOrderCount180 == null ">
+                        <![CDATA[ OR order_count_180 <= #{query.maxOrderCount180} ]]>
+                    </if>
+                    <if test="query.maxOrderCount180 == null and query.minOrderCount180 != null ">
+                        <![CDATA[ OR order_count_180 >= #{query.minOrderCount180} ]]>
+                    </if>
+
+
+                    <if test="query.maxAverageProduct != null and query.minAverageProduct != null ">
+                        <![CDATA[ OR (average_product <= #{query.maxAverageProduct} AND average_product >= #{query.minAverageProduct} ) ]]>
+                    </if>
+                    <if test="query.maxAverageProduct != null and query.minAverageProduct == null">
+                        <![CDATA[ OR average_product <= #{query.maxAverageProduct} ]]>
+                    </if>
+                    <if test="query.maxAverageProduct == null and query.minAverageProduct != null ">
+                        <![CDATA[ OR average_product >= #{query.minAverageProduct} ]]>
+                    </if>
+
+
+                    <if test="query.maxAverageProduct30 != null and query.minAverageProduct30 != null">
+                        <![CDATA[ OR (average_product_30 <= #{query.maxAverageProduct30} AND average_product_30 >= #{query.minAverageProduct30}) ]]>
+                    </if>
+                    <if test="query.maxAverageProduct30 != null and query.minAverageProduct30 == null">
+                        <![CDATA[ OR average_product_30 <= #{query.maxAverageProduct30} ]]>
+                    </if>
+                    <if test="query.minAverageProduct30 == null and query.minAverageProduct30 != null">
+                        <![CDATA[ OR average_product_30 >= #{query.minAverageProduct30} ]]>
+                    </if>
+
+
+                    <if test="query.maxAverageProduct60 != null and query.minAverageProduct60 != null ">
+                        <![CDATA[ OR (average_product_60 <= #{query.maxAverageProduct60} AND average_product_60 >= #{query.minAverageProduct60}) ]]>
+                    </if>
+                    <if test="query.maxAverageProduct60 != null and query.minAverageProduct60 == null ">
+                        <![CDATA[ OR average_product_60 <= #{query.maxAverageProduct60} ]]>
+                    </if>
+                    <if test="query.minAverageProduct60 == null and query.minAverageProduct60 != null  ">
+                        <![CDATA[ OR average_product_60 >= #{query.minAverageProduct60} ]]>
+                    </if>
+
+                    <if test="query.maxAverageProduct90 != null and query.minAverageProduct90 != null">
+                        <![CDATA[ OR (average_product_90 <= #{query.maxAverageProduct90} AND average_product_90 >= #{query.minAverageProduct90} ) ]]>
+                    </if>
+                    <if test="query.maxAverageProduct90 != null and query.minAverageProduct90 == null">
+                        <![CDATA[ OR average_product_90 <= #{query.maxAverageProduct90} ]]>
+                    </if>
+                    <if test="query.minAverageProduct90 == null and query.minAverageProduct90 != null">
+                        <![CDATA[ OR average_product_90 >= #{query.minAverageProduct90} ]]>
+                    </if>
+
+
+                    <if test="query.maxAverageProduct180 != null and query.minAverageProduct180 != null">
+                        <![CDATA[ OR (average_product_180 <= #{query.maxAverageProduct180} AND average_product_180 >= #{query.minAverageProduct180}) ]]>
+                    </if>
+                    <if test="query.maxAverageProduct180 != null and query.minAverageProduct180 == null">
+                        <![CDATA[ OR average_product_180 <= #{query.maxAverageProduct180} ]]>
+                    </if>
+                    <if test="query.minAverageProduct180 == null and query.minAverageProduct180 != null">
+                        <![CDATA[ OR average_product_180 >= #{query.minAverageProduct180} ]]>
+                    </if>
+
+
+                    <if test="query.maxProductCount != null and query.minProductCount != null ">
+                        <![CDATA[ OR (product_count <= #{query.maxProductCount} AND product_count >= #{query.minProductCount}) ]]>
+                    </if>
+                    <if test="query.maxProductCount != null and query.minProductCount == null ">
+                        <![CDATA[ OR product_count <= #{query.maxProductCount} ]]>
+                    </if>
+                    <if test="query.minProductCount == null and query.minProductCount != null ">
+                        <![CDATA[ OR product_count >= #{query.minProductCount} ]]>
+                    </if>
+
+
+                    <if test="query.maxProductCount30 != null and query.minProductCount30 != null ">
+                        <![CDATA[ OR (product_count_30 <= #{query.maxProductCount30} AND product_count_30 >= #{query.minProductCount30})]]>
+                    </if>
+                    <if test="query.maxProductCount30 != null and query.minProductCount30 == null ">
+                        <![CDATA[ OR product_count_30 <= #{query.maxProductCount30} ]]>
+                    </if>
+                    <if test="query.minProductCount30 == null and query.minProductCount30 != null ">
+                        <![CDATA[ OR product_count_30 >= #{query.minProductCount30} ]]>
+                    </if>
+
+
+                    <if test="query.maxProductCount60 != null and query.minProductCount60 != null ">
+                        <![CDATA[ OR (product_count_60 <= #{query.maxProductCount60} AND product_count_60 >= #{query.minProductCount60})]]>
+                    </if>
+                    <if test="query.maxProductCount60 != null and query.minProductCount60 = null ">
+                        <![CDATA[ OR product_count_60 <= #{query.maxProductCount60} ]]>
+                    </if>
+                    <if test="query.minProductCount60 == null and query.minProductCount60 != null ">
+                        <![CDATA[ OR product_count_60 >= #{query.minProductCount60} ]]>
+                    </if>
+
+
+                    <if test="query.maxProductCount90 != null and query.minProductCount90 != null">
+                        <![CDATA[ OR (product_count_90 <= #{query.maxProductCount90} AND product_count_90 >= #{query.minProductCount90}) ]]>
+                    </if>
+                    <if test="query.maxProductCount90 != null and query.minProductCount90 == null">
+                        <![CDATA[ OR product_count_90 <= #{query.maxProductCount90} ]]>
+                    </if>
+                    <if test="query.minProductCount90 == null and query.minProductCount90 != null">
+                        <![CDATA[ OR product_count_90 >= #{query.minProductCount90} ]]>
+                    </if>
+
+
+                    <if test="query.maxProductCount180 != null and query.minProductCount180 != null">
+                        <![CDATA[ OR (product_count_180 <= #{query.maxProductCount180} AND product_count_180 >= #{query.minProductCount180}) ]]>
+                    </if>
+                    <if test="query.maxProductCount180 != null and query.minProductCount180 == null">
+                        <![CDATA[ OR product_count_180 <= #{query.maxProductCount180} ]]>
+                    </if>
+                    <if test="query.minProductCount180 == null and query.minProductCount180 != null">
+                        <![CDATA[ OR product_count_180 >= #{query.minProductCount180} ]]>
+                    </if>
+                    <if test="query.orderConsultTag != null">
+                        OR order_consult_tag &amp; #{query.orderConsultTag} = #{query.orderConsultTag}
+                    </if>
+                    <if test="query.nonOrderConsultTag != null">
+                        OR ~order_consult_tag &amp; #{query.nonOrderConsultTag} = #{query.nonOrderConsultTag}
+                    </if>
+                    )
+                </otherwise>
+            </choose>
+
+
+            <if test="query.sex != null ">
+                AND sex = #{query.sex}
+            </if>
+
+            <if test="query.province != null and query.province != ''">
+                AND province  = #{query.province}
+            </if>
+
+            <if test="query.city != null and query.city != ''">
+                AND city  = #{query.city}
+            </if>
+            <if test="query.area != null and query.area != ''">
+                AND area  = #{query.area}
+            </if>
+            <if test="query.blackEnable != null and query.blackEnable != 0">
+                AND user_tags &amp; #{query.blackEnable} = #{query.blackEnable}
+            </if>
+            <if test="query.blackEnable != null and query.blackEnable == 0">
+                AND user_tags &amp; 1 != 1
+            </if>
+            <if test="query.labelTag != null">
+                AND label_tag &amp; #{query.labelTag} = #{query.labelTag}
+            </if>
+            <if test="query.originalCondition != null ">
+                <if test="query.originalCondition.startPayedTime != null">
+                    <![CDATA[ AND gmt_last_payed >= #{query.originalCondition.startPayedTime} ]]>
+                </if>
+                <if test="query.originalCondition.endPayedTime != null">
+                    <![CDATA[ AND gmt_last_payed <= #{query.originalCondition.endPayedTime} ]]>
+                </if>
+
+                <if test="query.originalCondition.startConsulTime != null">
+                    <![CDATA[ AND gmt_last_consultation >= #{query.originalCondition.startConsulTime} ]]>
+                </if>
+                <if test="query.originalCondition.endConsulTime != null ">
+                    <![CDATA[ AND gmt_last_consultation <= #{query.originalCondition.endConsulTime} ]]>
+                </if>
+
+                <if test="query.originalCondition.minOrderPayed != null">
+                    <![CDATA[ AND order_payed >= #{query.originalCondition.minOrderPayed} ]]>
+                </if>
+                <if test="query.originalCondition.maxOrderPayed != null">
+                    <![CDATA[ AND order_payed <= #{query.originalCondition.maxOrderPayed} ]]>
+                </if>
+
+                <if test="query.originalCondition.minOrderCount != null">
+                    <![CDATA[ AND order_count >= #{query.originalCondition.minOrderCount} ]]>
+                </if>
+                <if test="query.originalCondition.maxOrderCount != null">
+                    <![CDATA[ AND order_count <= #{query.originalCondition.maxOrderCount} ]]>
+                </if>
+
+                <if test="query.originalCondition.minAverageProduct != null ">
+                    <![CDATA[ AND average_product >= #{query.originalCondition.minAverageProduct} ]]>
+                </if>
+                <if test="query.originalCondition.maxAverageProduct != null">
+                    <![CDATA[ AND average_product <= #{query.originalCondition.maxAverageProduct} ]]>
+                </if>
+
+                <if test="query.originalCondition.minProductCount != null ">
+                    <![CDATA[ AND product_count >= #{query.originalCondition.minProductCount} ]]>
+                </if>
+                <if test="query.originalCondition.maxProductCount != null">
+                    <![CDATA[ AND product_count <= #{query.originalCondition.maxProductCount} ]]>
+                </if>
+
+            </if>
+            <if test="query.buyerId != null and query.buyerId != ''">
+                AND buyer_id LIKE CONCAT(#{query.buyerId},'%')
+            </if>
+            <if test="query.smsStatus != null">
+                AND phone != ''
+            </if>
+        </where>
+    </sql>
+    <select id="pageList" parameterType="com.wekj.adr.query.BuyerPortraitQuery" resultMap="newAllColumnMap">
+        SELECT <include refid="new_all_column"/>
+        FROM buyer_portrait_calculate <include refid="newWhereSql" />
+        <choose >
+          <when test="query.orderSql != null and query.orderSql != ''">
+              ${query.orderSql}
+          </when>
+          <otherwise>
+              order by gmt_last_consultation desc
+          </otherwise>
+        </choose>
+        limit #{query.startRow}, #{query.pageSize}
+    </select>
+
+    <select id="countBuyerPortrait" parameterType="com.wekj.adr.query.BuyerPortraitQuery"  resultType="java.lang.Integer">
+        SELECT count(*) FROM buyer_portrait_calculate <include refid="newWhereSql" />
+    </select>
+
+    <select id="singleLabelPageList" parameterType="com.wekj.adr.query.BuyerPortraitQuery" resultMap="newAllColumnMap">
+        SELECT <include refid="new_all_column"/>
+        FROM buyer_portrait_calculate <include refid="singleLabelWhereSqlWithArea" />
+        <choose >
+            <when test="query.orderSql != null and query.orderSql != ''">
+                ${query.orderSql}
+            </when>
+            <otherwise>
+                order by gmt_last_consultation desc
+            </otherwise>
+        </choose>
+        limit #{query.startRow}, #{query.pageSize}
+    </select>
+
+    <select id="countSingleLabelBuyerPortrait" parameterType="com.wekj.adr.query.BuyerPortraitQuery" resultType="java.lang.Integer">
+        SELECT count(*) FROM buyer_portrait_calculate <include refid="singleLabelWhereSqlWithArea" />
+
+    </select>
+
+    <select id="getBuyerPortraitById" resultMap="newAllColumnMap">
+        SELECT <include refid="new_all_column"/>
+        from buyer_portrait_calculate
+        where shop_id = #{shopId} AND id = #{id}
+    </select>
+
+    <update id="updateLabelTagById">
+        update  buyer_portrait_calculate set label_tag = (IFNULL(label_tag,0) | #{addTag}) &amp; (~#{removeTag})
+        where id = #{id} and shop_id = #{shopId}
+    </update>
+
+    <update id="updateLabelTagByShopId">
+        update  buyer_portrait_calculate set label_tag = (label_tag | #{addTag}) &amp; (~#{removeTag})
+        where shop_id = #{shopId} and  (label_tag &amp; #{origionTag}) = #{origionTag}
+    </update>
+
+    <select id="queryByBuyerIds" resultMap="newAllColumnMap">
+        select  <include refid="new_all_column"/>
+        from buyer_portrait_calculate where shop_id = #{shopId}
+        <choose >
+            <when test="null != buyerIds and buyerIds.size() > 0">
+                and buyer_id in
+                <foreach collection="buyerIds" item="buyerId" index="index" open="(" separator="," close=")">
+                    #{buyerId}
+                </foreach>
+            </when>
+            <otherwise>
+                and 1=2
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getBuyerPortraitByBuyerId" resultMap="newAllColumnMap">
+        select <include refid="new_all_column"/>
+         from buyer_portrait_calculate where shop_id = #{shopId} and buyer_id = #{buyerId}
+    </select>
+    <select id="countSingleLabelBuyerPortraitDistinctPhone" resultType="java.lang.Integer">
+        SELECT count(distinct phone) FROM buyer_portrait_calculate <include refid="singleLabelWhereSql" />
+    </select>
+
+    <select id="singleLabelSmsPageList" parameterType="com.wekj.adr.query.BuyerPortraitQuery" resultMap="newAllColumnMap">
+        SELECT <include refid="new_all_column"/>
+        FROM buyer_portrait_calculate <include refid="singleLabelWhereSql" />
+        AND order_consult_tag &amp; 8192 = 0
+        GROUP BY phone
+        limit #{query.startRow}, #{query.pageSize}
+    </select>
+</mapper>
+
