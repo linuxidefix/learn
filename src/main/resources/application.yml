@@ -1,2 +1,7 @@
 server:
   port: 8090
+spring:
+  kafka:
+    consumer:
+      group-id: foo
+      auto-offset-reset: earliest
