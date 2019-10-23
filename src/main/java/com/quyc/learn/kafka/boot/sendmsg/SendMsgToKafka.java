@@ -23,7 +23,7 @@ import java.util.concurrent.TimeoutException;
  * @create: 2019/10/23 11:39
  * @description: send msg to kafka
  */
-@Controller
+//@Controller
 @Slf4j
 public class SendMsgToKafka {
 

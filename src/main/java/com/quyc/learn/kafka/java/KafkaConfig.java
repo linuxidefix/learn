@@ -1,6 +1,7 @@
 package com.quyc.learn.kafka.java;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.RoundRobinAssignor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.IntegerSerializer;
@@ -12,6 +13,8 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,16 +42,16 @@ public class KafkaConfig {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs());
     }
 
-    @Bean
-    public Map<String, Object> consumerConfigs() {
+    public static Map<String, Object> consumerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.167.119:9092");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "default-group");
-        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
+//        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, 200);
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 15000);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, Collections.singletonList(RoundRobinAssignor.class));
         return props;
     }
 
@@ -57,8 +60,7 @@ public class KafkaConfig {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
-    @Bean
-    public Map<String, Object> producerConfigs() {
+    public static Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.167.119:9092");
         props.put(ProducerConfig.RETRIES_CONFIG, 0);

@@ -40,14 +40,9 @@ public class SimpleKafka {
         log.info("Start auto");
         ContainerProperties containerProps = new ContainerProperties("topic1", "topic2");
         final CountDownLatch latch = new CountDownLatch(4);
-        containerProps.setMessageListener(new MessageListener<Integer, String>() {
-
-            @Override
-            public void onMessage(ConsumerRecord<Integer, String> message) {
-                log.info("received: " + message);
-                latch.countDown();
-            }
-
+        containerProps.setMessageListener((MessageListener<Integer, String>) message -> {
+            log.info("received: " + message);
+            latch.countDown();
         });
         KafkaMessageListenerContainer<Integer, String> container = createContainer(containerProps);
         container.setBeanName("testAuto");

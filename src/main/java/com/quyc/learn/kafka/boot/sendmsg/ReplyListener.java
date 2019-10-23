@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @description: 实现消息转发功能的Listener
  */
 @Slf4j
-@Component
+//@Component
 public class ReplyListener {
 
     /**
