@@ -1,4 +1,4 @@
-package com.quyc.learn.kafka.boot;
+package com.quyc.learn.kafka.boot.sendmsg;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -7,6 +7,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @description:
  */
 @Slf4j
-@Controller
+//@RestController
 public class KafkaSpringboot {
 
 
@@ -36,7 +37,7 @@ public class KafkaSpringboot {
         return "success";
     }
 
-    @KafkaListener(topics = "thing1")
+//    @KafkaListener(topics = "thing1")
     public void listen(ConsumerRecord<?, ?> cr) throws Exception {
         log.info(cr.toString());
         latch.countDown();

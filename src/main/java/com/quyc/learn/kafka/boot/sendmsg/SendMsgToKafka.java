@@ -1,9 +1,11 @@
-package com.quyc.learn.kafka.boot;
+package com.quyc.learn.kafka.boot.sendmsg;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.header.internals.RecordHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -15,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
+ * 同步和异步发送消息demo
+ *
  * @author: andy
  * @create: 2019/10/23 11:39
  * @description: send msg to kafka
@@ -79,7 +83,10 @@ public class SendMsgToKafka {
     }
 
     private ProducerRecord<String, String> createRecord() {
-        return new ProducerRecord<>("thing3", "test msg");
+        ProducerRecord<String, String> record = new ProducerRecord<>("myTopic", "test msg");
+        // 配置reply_topic可实现消息的转发
+        record.headers().add(new RecordHeader(KafkaHeaders.REPLY_TOPIC, "kReplies".getBytes()));
+        return record;
     }
 
 

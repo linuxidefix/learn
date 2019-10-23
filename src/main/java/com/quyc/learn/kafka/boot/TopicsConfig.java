@@ -13,9 +13,9 @@ import java.util.Map;
 /**
  * @author: andy
  * @create: 2019/10/23 10:52
- * @description: 管理topic
+ * @description: 创建topic
  */
-@Configuration
+//@Configuration
 public class TopicsConfig {
 
     @Bean

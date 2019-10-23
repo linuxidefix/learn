@@ -2,7 +2,7 @@ server:
   port: 8090
 spring:
   kafka:
-    consumer:
-      group-id: foo
-      auto-offset-reset: earliest
+#    consumer:
+#      group-id: foo
+#      auto-offset-reset: earliest
     bootstrap-servers: 192.168.167.119:9092

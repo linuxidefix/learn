@@ -7,6 +7,8 @@ import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 
@@ -18,8 +20,8 @@ import java.util.Map;
  * @create: 2019/10/22 20:47
  * @description: kafka 配置
  */
-//@Configuration
-//@EnableKafka
+@Configuration
+@EnableKafka
 public class KafkaConfig {
 
     @Bean
@@ -27,6 +29,8 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<Integer, String> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+        // 配置回复template，可结合ReplyingKafkaTemplate实现请求/响应模式，以及配合@SendTo实现消息转发
+        factory.setReplyTemplate(kafkaTemplate());
         return factory;
     }
 
@@ -39,18 +43,13 @@ public class KafkaConfig {
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.167.119:9092");
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "group-1");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "default-group");
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, 200);
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 15000);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return props;
-    }
-
-    @Bean
-    public Listener listener() {
-        return new Listener();
     }
 
     @Bean
@@ -73,6 +72,6 @@ public class KafkaConfig {
 
     @Bean
     public KafkaTemplate<Integer, String> kafkaTemplate() {
-        return new KafkaTemplate<Integer, String>(producerFactory());
+        return new KafkaTemplate<>(producerFactory());
     }
 }

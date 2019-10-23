@@ -11,13 +11,14 @@ import java.util.concurrent.CountDownLatch;
  * @description: kafka listener
  */
 @Slf4j
+//@Component
 public class Listener {
 
-    public final CountDownLatch latch1 = new CountDownLatch(1);
+    public final CountDownLatch latch = new CountDownLatch(1);
 
-    @KafkaListener(id = "foo", topics = "annotated1")
-    public void listen1(String foo) {
+    @KafkaListener(topics = "annotated1")
+    public void listener(String foo) {
         log.info("received message：" + foo);
-        this.latch1.countDown();
+        this.latch.countDown();
     }
 }
