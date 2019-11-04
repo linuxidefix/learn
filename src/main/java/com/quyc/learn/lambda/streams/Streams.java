@@ -1,6 +1,7 @@
 package com.quyc.learn.lambda.streams;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -71,7 +72,8 @@ public class Streams {
 //        takeDropWhile();
 //        groupingBy();
 //        matchDemo();
-        partitioningBy();
+//        partitioningBy();
+        parallelForEach();
     }
 
     /**
@@ -264,6 +266,21 @@ public class Streams {
         System.out.println("sumSalary = " + sumSalary);
         int sum = javaProgrammers.stream().mapToInt(Person::getSalary).sum();
         System.out.println("sum = " + sum);
+    }
+
+    /**
+     * parallelForEach
+     */
+    private static void parallelForEach() {
+        Map<String, List<Person>> listMap = new HashMap<>();
+        for (int i = 0; i < 10; i++) {
+            listMap.put("java" + i, javaProgrammers);
+        }
+        AtomicInteger num = new AtomicInteger(0);
+        listMap.entrySet().parallelStream().forEach(stringListEntry -> {
+            num.getAndAdd(1);
+            System.out.println("num = " + num);
+        });
     }
 
     /**
