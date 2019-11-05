@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class KafkaListenerDemo {
 
-    @KafkaListener(id = "listener-1", topics = "thing1", concurrency = "3", groupId = "listener-1")
+    @KafkaListener(id = "listener-1", topics = "topic1", concurrency = "3", groupId = "listener-1")
     public void listen(String msg) {
         log.info("listener-1 received msg = " + msg);
     }

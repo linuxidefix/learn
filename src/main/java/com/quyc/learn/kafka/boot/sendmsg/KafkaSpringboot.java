@@ -29,15 +29,15 @@ public class KafkaSpringboot {
 
     @GetMapping("sendByBoot")
     public String sendByBoot() throws Exception {
-        template.send("thing1", "foo1");
-        template.send("thing1", "foo2");
-        template.send("thing1", "foo3");
+        template.send("topic1", "foo1");
+        template.send("topic1", "foo2");
+        template.send("topic1", "foo3");
         latch.await(60, TimeUnit.SECONDS);
         log.info("All received");
         return "success";
     }
 
-//    @KafkaListener(topics = "thing1")
+//    @KafkaListener(topics = "topic1")
     public void listen(ConsumerRecord<?, ?> cr) throws Exception {
         log.info(cr.toString());
         latch.countDown();
