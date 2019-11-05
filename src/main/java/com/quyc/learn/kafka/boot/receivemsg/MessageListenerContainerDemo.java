@@ -4,7 +4,6 @@ import com.quyc.learn.kafka.java.KafkaConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.*;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
@@ -14,7 +13,7 @@ import javax.annotation.PostConstruct;
  * @description: MessageListenerContainer学习
  */
 @Slf4j
-@Component
+//@Component
 public class MessageListenerContainerDemo {
 
     /**
@@ -66,7 +65,7 @@ public class MessageListenerContainerDemo {
         // 如果enable.auto.commit=true，则提交方式根据配置进行，若为false（2.3版本之后若配置文件未设置，则spring框架默认设置为false）则根据spring框架提供的提交方式进行
         // 消费者提交方式，默认批量提交
         containerProperties.setAckMode(ContainerProperties.AckMode.BATCH);
-        // 异步提交偏移量，默认为true
+        // 同步提交偏移量，默认为true
         containerProperties.setSyncCommits(true);
         // 默认即为 LoggingCommitCallback
         containerProperties.setCommitCallback(new LoggingCommitCallback());
