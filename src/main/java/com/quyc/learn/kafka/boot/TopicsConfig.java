@@ -33,7 +33,7 @@ public class TopicsConfig {
 
     @Bean
     public NewTopic topic2() {
-        NewTopic newTopic = new NewTopic("topic2", 50, (short) 3);
+        NewTopic newTopic = new NewTopic("topic2", 10, (short) 3);
         Map<String, String> hashMap = new HashMap<>();
         hashMap.put(TopicConfig.COMPRESSION_TYPE_CONFIG, "zxtd");
         newTopic.configs(hashMap);
