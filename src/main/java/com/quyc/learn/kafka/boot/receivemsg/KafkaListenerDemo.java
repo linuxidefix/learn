@@ -8,7 +8,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ import java.util.List;
  * @description: KafkaListener 学习
  */
 @Slf4j
-@Component
+//@Component
 public class KafkaListenerDemo {
 
     /**

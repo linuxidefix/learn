@@ -3,7 +3,6 @@ package com.quyc.learn.kafka.boot.receivemsg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
 
 /**
  * @author: andy
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @description: @KafkaListener应用到类名上
  */
 @KafkaListener(id = "multi", topics = "topic1", groupId = "multi")
-@Component
+//@Component
 @Slf4j
 public class KafkaListenerDemo2 {
 

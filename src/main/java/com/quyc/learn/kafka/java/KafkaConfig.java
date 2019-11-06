@@ -6,11 +6,16 @@ import org.apache.kafka.clients.consumer.RoundRobinAssignor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.annotation.KafkaListenerConfigurer;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistrar;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.support.converter.StringJsonMessageConverter;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,7 +28,7 @@ import java.util.Map;
  */
 @Configuration
 @EnableKafka
-public class KafkaConfig {
+public class KafkaConfig implements KafkaListenerConfigurer {
 
     @Bean
     ConcurrentKafkaListenerContainerFactory<Integer, String> kafkaListenerContainerFactory() {
@@ -32,6 +37,22 @@ public class KafkaConfig {
         factory.setConsumerFactory(consumerFactory());
         // 配置回复template，可结合ReplyingKafkaTemplate实现请求/响应模式，以及配合@SendTo实现消息转发
         factory.setReplyTemplate(kafkaTemplate());
+        return factory;
+    }
+
+    /**
+     * 使用StringJsonMessageConverter进行消息类型转换的container
+     *
+     * @return the concurrent kafka listener container factory
+     */
+    @Bean
+    ConcurrentKafkaListenerContainerFactory<Integer, String> kafkaJSONListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<Integer, String> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        // 配置回复template，可结合ReplyingKafkaTemplate实现请求/响应模式，以及配合@SendTo实现消息转发
+        factory.setReplyTemplate(kafkaTemplate());
+        factory.setMessageConverter(new StringJsonMessageConverter());
         return factory;
     }
 
@@ -104,5 +125,23 @@ public class KafkaConfig {
     @Bean
     public KafkaTemplate<Integer, String> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
+    }
+
+    /**
+     * When you use Spring Boot with the validation starter, a LocalValidatorFactoryBean is auto-configured
+     */
+    @Autowired
+    private LocalValidatorFactoryBean validatorFactoryBean;
+
+    /**
+     * 通过@KafkaListener注册的消费者并不是由application context管理，而是由KafkaListenerEndpointRegistry这个基础bean进行管理
+     * KafkaListenerEndpointRegistrar is a helper bean for registering KafkaListenerEndpoint with a KafkaListenerEndpointRegistry
+     *
+     * @param registrar
+     */
+    @Override
+    public void configureKafkaListeners(KafkaListenerEndpointRegistrar registrar) {
+        // 注册validator
+        registrar.setValidator(validatorFactoryBean);
     }
 }
