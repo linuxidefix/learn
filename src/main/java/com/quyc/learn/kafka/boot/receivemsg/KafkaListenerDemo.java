@@ -1,8 +1,11 @@
 package com.quyc.learn.kafka.boot.receivemsg;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +41,7 @@ public class KafkaListenerDemo {
     }
 
     /**
-     * 定义一个kafka消费者
+     * 定义一个kafka批量消息消费者
      *
      * @param msgs      消息净荷
      * @param offset    the offset
@@ -47,7 +50,7 @@ public class KafkaListenerDemo {
      * @param topic     主题
      * @param timestamp 时间戳
      */
-    @KafkaListener(topics = "topic1", concurrency = "3", groupId = "batchListener", containerFactory = "batchKafkaListenerContainerFactory")
+    @KafkaListener(topics = "topic1", groupId = "batchListener", containerFactory = "batchKafkaListenerContainerFactory")
     public void batchListener(List<String> msgs,
                               @Header(KafkaHeaders.OFFSET) String offset,
                               @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) String key,
@@ -56,5 +59,40 @@ public class KafkaListenerDemo {
                               @Header(KafkaHeaders.RECEIVED_TIMESTAMP) long timestamp) {
         log.info("batchListener received msg={},offset={},key={},partition={},topic={},timestamp={}", msgs, offset, key, partition, topic, timestamp);
     }
+
+    /**
+     * 定义一个kafka批量消息消费者
+     *
+     * @param msgs 消息净荷
+     */
+    @KafkaListener(topics = "topic1", groupId = "batchListenerMsg", containerFactory = "batchKafkaListenerContainerFactory")
+    public void batchListenerMsg(List<Message<String>> msgs) {
+        log.info("batchListenerMsg received msg={},", msgs);
+        msgs.forEach(System.out::println);
+    }
+
+    /**
+     * 定义一个kafka批量消息消费者
+     *
+     * @param crs 消息
+     */
+    @KafkaListener(topics = "topic1", groupId = "batchListenerCR", containerFactory = "batchKafkaListenerContainerFactory")
+    public void batchListenerCR(List<ConsumerRecord<String, String>> crs) {
+        log.info("batchListenerCR received crs={},", crs);
+        crs.forEach(System.out::println);
+    }
+
+    /**
+     * 定义一个kafka批量消息消费者
+     *
+     * @param crs 消息
+     */
+    @KafkaListener(id = "batchListenerCRS", topics = "topic1", containerFactory = "batchKafkaListenerContainerFactory")
+    public void batchListenerCRS(ConsumerRecords<String, String> crs) {
+        log.info("batchListenerCRS received crs={},", crs);
+        crs.partitions().forEach(System.out::println);
+        crs.forEach(System.out::println);
+    }
+
 
 }
