@@ -16,6 +16,7 @@ public class LearnApplicationTests {
         System.out.println("Pattern.matches(\"1\\\\d{10}\", \"\") = " + Pattern.matches("1\\d{10}", ""));
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         System.out.println("methodName = " + methodName);
+        System.out.println(("cntaobao郎沈剑".hashCode() & 0x7FFFFFFF) % 1024 );
     }
 
 }

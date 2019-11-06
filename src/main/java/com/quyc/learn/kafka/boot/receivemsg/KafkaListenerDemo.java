@@ -1,6 +1,7 @@
 package com.quyc.learn.kafka.boot.receivemsg;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -84,10 +85,12 @@ public class KafkaListenerDemo {
 
     /**
      * 定义一个kafka批量消息消费者
-     *
+     * 1. 通过properties进行消费者属性配置可覆盖consumerFactory中配置的属性，支持如下格式：foo:bar, foo=bar, foo bar
+     * 2. 2.0版本后，id可以作为groupId，并覆盖consumerFactory配置
      * @param crs 消息
      */
-    @KafkaListener(id = "batchListenerCRS", topics = "topic1", containerFactory = "batchKafkaListenerContainerFactory")
+    @KafkaListener(id = "batchListenerCRS", topics = "topic1", containerFactory = "batchKafkaListenerContainerFactory",
+            properties = {"max.poll.interval.ms:60000", ConsumerConfig.MAX_POLL_RECORDS_CONFIG + "=100"})
     public void batchListenerCRS(ConsumerRecords<String, String> crs) {
         log.info("batchListenerCRS received crs={},", crs);
         crs.partitions().forEach(System.out::println);
