@@ -47,6 +47,9 @@ public class KafkaConfig implements KafkaListenerConfigurer {
 //        factory.setRecoveryCallback();
         // 实现有状态的重试，未处理的消息会在下次poll()中返回并进行再次消费
         factory.setStatefulRetry(true);
+        // 设置限制时间间隔，poll()拉取不到消息的时间超过此间隔后，每个一分钟发出一个 IdleContainerEvent 事件
+        // 若broker长时间无响应导致poll()无法返回，此时无法发送 IdleContainerEvent 事件，若时间超过 3*pollTimeout则会发出一个 NonResponsiveConsumerEvent 事件
+        factory.getContainerProperties().setIdleEventInterval(60000L);
         return factory;
     }
 
