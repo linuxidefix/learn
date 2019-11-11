@@ -1,5 +1,6 @@
 package com.quyc.learn.kafka.java;
 
+import com.quyc.learn.kafka.origin.MyConsumerAwareRebalanceListener;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.RangeAssignor;
 import org.apache.kafka.clients.consumer.RoundRobinAssignor;
@@ -17,6 +18,7 @@ import org.springframework.kafka.core.*;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +32,9 @@ import java.util.Map;
 @EnableKafka
 public class KafkaConfig implements KafkaListenerConfigurer {
 
+    @Resource
+    private MyConsumerAwareRebalanceListener myConsumerAwareRebalanceListener;
+
     @Bean
     ConcurrentKafkaListenerContainerFactory<Integer, String> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<Integer, String> factory =
@@ -37,6 +42,8 @@ public class KafkaConfig implements KafkaListenerConfigurer {
         factory.setConsumerFactory(consumerFactory());
         // 配置回复template，可结合ReplyingKafkaTemplate实现请求/响应模式，以及配合@SendTo实现消息转发
         factory.setReplyTemplate(kafkaTemplate());
+        // 配置在均衡监听器
+        factory.getContainerProperties().setConsumerRebalanceListener(myConsumerAwareRebalanceListener);
         return factory;
     }
 
