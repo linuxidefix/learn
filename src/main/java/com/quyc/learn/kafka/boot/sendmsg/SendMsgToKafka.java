@@ -6,7 +6,6 @@ import org.apache.kafka.common.header.internals.RecordHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +21,7 @@ import java.util.concurrent.TimeoutException;
  * @create: 2019/10/23 11:39
  * @description: send msg to kafka
  */
-@Controller
+//@Controller
 @Slf4j
 public class SendMsgToKafka {
 

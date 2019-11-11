@@ -21,7 +21,7 @@ public class ReplyListener {
      * @param foo
      * @return
      */
-//    @KafkaListener(topics = "kRequests", containerFactory = "kafkaListenerContainerFactory")
+//    @KafkaListener(topics = "kRequests", containerFactory = "replyKafkaListenerContainerFactory")
     @SendTo
     public String listener(String foo) {
         // 收到消息后做业务处理，然后返回结果
@@ -35,7 +35,7 @@ public class ReplyListener {
      * @param foo
      * @return
      */
-    @KafkaListener(topics = "sendTopic", containerFactory = "kafkaListenerContainerFactory")
+    @KafkaListener(topics = "sendTopic", containerFactory = "replyKafkaListenerContainerFactory")
     // 配置静态topic
 //    @SendTo("topic1")
     // 配置config time SpEL

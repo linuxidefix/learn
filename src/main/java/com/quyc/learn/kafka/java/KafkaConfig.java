@@ -40,6 +40,21 @@ public class KafkaConfig implements KafkaListenerConfigurer {
         ConcurrentKafkaListenerContainerFactory<Integer, String> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+        // 设置消息过滤策略，可自定义消息是否过滤
+        factory.setRecordFilterStrategy(consumerRecord -> false);
+        return factory;
+    }
+
+    /**
+     * 具有消息转发功能的container
+     *
+     * @return the concurrent kafka listener container factory
+     */
+    @Bean
+    ConcurrentKafkaListenerContainerFactory<Integer, String> replyKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<Integer, String> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
         // 配置回复template，可结合ReplyingKafkaTemplate实现请求/响应模式，以及配合@SendTo实现消息转发
         factory.setReplyTemplate(kafkaTemplate());
         // 配置在均衡监听器
