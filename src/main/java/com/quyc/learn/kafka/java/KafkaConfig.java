@@ -44,6 +44,8 @@ public class KafkaConfig implements KafkaListenerConfigurer {
         factory.setReplyTemplate(kafkaTemplate());
         // 配置在均衡监听器
         factory.getContainerProperties().setConsumerRebalanceListener(myConsumerAwareRebalanceListener);
+        // 自定义replyHeader，指定header进行转发
+        factory.setReplyHeadersConfigurer((headerName, headerValue) -> "reply_header".equals(headerName));
         return factory;
     }
 

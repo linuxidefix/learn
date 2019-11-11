@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @description: 实现消息转发功能的Listener
  */
 @Slf4j
-//@Component
+@Component
 public class ReplyListener {
 
     /**
@@ -21,7 +21,7 @@ public class ReplyListener {
      * @param foo
      * @return
      */
-    @KafkaListener(topics = "kRequests", containerFactory = "kafkaListenerContainerFactory")
+//    @KafkaListener(topics = "kRequests", containerFactory = "kafkaListenerContainerFactory")
     @SendTo
     public String listener(String foo) {
         // 收到消息后做业务处理，然后返回结果
@@ -35,7 +35,22 @@ public class ReplyListener {
      * @param foo
      * @return
      */
-    @KafkaListener(topics = "myTopic", containerFactory = "kafkaListenerContainerFactory")
+    @KafkaListener(topics = "sendTopic", containerFactory = "kafkaListenerContainerFactory")
+    // 配置静态topic
+//    @SendTo("topic1")
+    // 配置config time SpEL
+//    @SendTo("${kafka.topic}")
+    // 配置config time SpEL，读取bean配置
+//    @SendTo("#{topicConfig.topic}")
+    // 配置 runtime SpEL
+//    @SendTo("!{someExpression}") routes to the topic determined by evaluating the expression at runtime. The #root object for the evaluation has three properties:
+//    request: The inbound ConsumerRecord (or ConsumerRecords object for a batch listener))
+//    source: The org.springframework.messaging.Message<?> converted from the request.
+    // 转发到方法返回结果指定的topic上，值为方法结果，及topic名
+//    result: The method return result.
+//    @SendTo("!{request.value()}")
+//    @SendTo("!{source.getPayload()}")
+    // 根据header中的reply_topic指定的topic名转发
     @SendTo
     public String listener2(String foo) {
         log.info("received message：" + foo);

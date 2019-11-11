@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.listener.KafkaListenerErrorHandler;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -18,7 +17,7 @@ import javax.validation.constraints.Size;
  * @description:
  */
 @Slf4j
-@Component
+//@Component
 public class KafkaListenerValideted {
 
     /**

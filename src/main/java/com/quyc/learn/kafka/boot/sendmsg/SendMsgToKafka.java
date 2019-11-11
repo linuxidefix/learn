@@ -5,7 +5,6 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.internals.RecordHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -23,7 +22,7 @@ import java.util.concurrent.TimeoutException;
  * @create: 2019/10/23 11:39
  * @description: send msg to kafka
  */
-//@Controller
+@Controller
 @Slf4j
 public class SendMsgToKafka {
 
@@ -83,9 +82,10 @@ public class SendMsgToKafka {
     }
 
     private ProducerRecord<String, String> createRecord() {
-        ProducerRecord<String, String> record = new ProducerRecord<>("myTopic", "test msg");
+        ProducerRecord<String, String> record = new ProducerRecord<>("sendTopic", "test msg");
         // 配置reply_topic可实现消息的转发
-        record.headers().add(new RecordHeader(KafkaHeaders.REPLY_TOPIC, "kReplies".getBytes()));
+//        record.headers().add(new RecordHeader(KafkaHeaders.REPLY_TOPIC, "kReplies".getBytes()));
+        record.headers().add(new RecordHeader("reply_header", "topic1".getBytes()));
         return record;
     }
 
