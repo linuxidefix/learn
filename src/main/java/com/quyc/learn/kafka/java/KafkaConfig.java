@@ -42,6 +42,11 @@ public class KafkaConfig implements KafkaListenerConfigurer {
         factory.setConsumerFactory(consumerFactory());
         // 设置消息过滤策略，可自定义消息是否过滤
         factory.setRecordFilterStrategy(consumerRecord -> false);
+        // 重试机制
+//        factory.setRetryTemplate();
+//        factory.setRecoveryCallback();
+        // 实现有状态的重试，未处理的消息会在下次poll()中返回并进行再次消费
+        factory.setStatefulRetry(true);
         return factory;
     }
 
