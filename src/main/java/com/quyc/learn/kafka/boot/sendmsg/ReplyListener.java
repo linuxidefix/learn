@@ -3,7 +3,6 @@ package com.quyc.learn.kafka.boot.sendmsg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Component;
 
 /**
  * @author: andy
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @description: 实现消息转发功能的Listener
  */
 @Slf4j
-@Component
+//@Component
 public class ReplyListener {
 
     /**

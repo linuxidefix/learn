@@ -9,8 +9,6 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.KafkaListenerConfigurer;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistrar;
@@ -28,12 +26,13 @@ import java.util.Map;
  * @create: 2019/10/22 20:47
  * @description: kafka 配置
  */
-@Configuration
-@EnableKafka
+//@Configuration
+//@EnableKafka
 public class KafkaConfig implements KafkaListenerConfigurer {
 
     @Resource
     private MyConsumerAwareRebalanceListener myConsumerAwareRebalanceListener;
+
 
     @Bean
     ConcurrentKafkaListenerContainerFactory<Integer, String> kafkaListenerContainerFactory() {
@@ -139,7 +138,10 @@ public class KafkaConfig implements KafkaListenerConfigurer {
 
     @Bean
     public ProducerFactory<Integer, String> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs());
+        DefaultKafkaProducerFactory<Integer, String> defaultKafkaProducerFactory = new DefaultKafkaProducerFactory<>(producerConfigs());
+        // 配置事务前缀
+        defaultKafkaProducerFactory.setTransactionIdPrefix("kafka-trans");
+        return defaultKafkaProducerFactory;
     }
 
     public static Map<String, Object> producerConfigs() {

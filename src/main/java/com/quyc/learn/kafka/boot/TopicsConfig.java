@@ -3,20 +3,19 @@ package com.quyc.learn.kafka.boot;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.config.TopicConfig;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.annotation.TopicPartition;
-//import org.springframework.kafka.config.TopicBuilder;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+//import org.springframework.kafka.config.TopicBuilder;
 
 /**
  * @author: andy
  * @create: 2019/10/23 10:52
  * @description: 创建topic
  */
-@Configuration
+//@Configuration
 public class TopicsConfig {
 
     @Bean
