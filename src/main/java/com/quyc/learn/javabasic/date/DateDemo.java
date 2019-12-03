@@ -5,10 +5,9 @@ import org.apache.commons.lang3.time.DateUtils;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalUnit;
 import java.util.Date;
 
 /**
@@ -38,7 +37,12 @@ public class DateDemo {
         Duration between = Duration.between(now, now.plus(12, ChronoUnit.SECONDS));
         long l = between.get(ChronoUnit.SECONDS);
         System.out.println("l = " + l);
-
+        LocalTime localTime = LocalTime.of(8, 10, 00);
+        System.out.println("localTime = " + localTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        LocalTime nowTime = LocalTime.now();
+        Date date1 = DateUtils.parseDate("2019-11-03 15:00:00", "yyyy-MM-dd HH:mm:ss");
+        LocalTime toLocalTime = LocalDateTimeUtils.convertDateToLDT(date1).toLocalTime();
+        System.out.println("nowTime.isAfter(toLocalTime) = " + nowTime.isAfter(toLocalTime));
     }
 
     public static void testLocalDate() throws ParseException {
